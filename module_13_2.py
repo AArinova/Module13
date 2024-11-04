@@ -8,7 +8,7 @@ bot = Bot(token = api)
 dp = Dispatcher(bot, storage = MemoryStorage())
 
 @dp.message_handler(commands=["start"])
-async def mess_start():
+async def mess_start(message):
     print("Привет! Я бот помогающий твоему здоровью.")
 
 @dp.message_handler()
