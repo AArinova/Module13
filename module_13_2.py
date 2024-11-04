@@ -3,12 +3,12 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 import asyncio
 from babel.plural import skip_token
 
-api = ""
+api = "7245377370:AAHM2WCQKtOFuRQzZyuV2MakYowLQgObyyA"
 bot = Bot(token = api)
 dp = Dispatcher(bot, storage = MemoryStorage())
 
-@dp.message_handler()
-async def mess_start(commands=["start"]):
+@dp.message_handler(commands=["start"])
+async def mess_start():
     print("Привет! Я бот помогающий твоему здоровью.")
 
 @dp.message_handler()
