@@ -6,7 +6,7 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-api = "7245377370:AAHM2WCQKtOFuRQzZyuV2MakYowLQgObyyA"
+api = ""
 bot = Bot(token = api)
 dp = Dispatcher(bot, storage = MemoryStorage())
 
@@ -34,11 +34,12 @@ async def main_menu(message):
 
 @dp.callback_query_handler(text="formulas")
 async def get_formulas(call):
-    await call.message.answer("Ваша норма калорий :", reply_markup=ib)
+    await call.message.answer("10*ВЕС+6.25*РОСТ-5*ВОЗРАСТ-161:", reply_markup=ib)
+    await call.answer()
 
 @dp.callback_query_handler(text='calories')
 async def set_age(message):
-    await message('Введите свой возраст:')
+    await message.answer('Введите свой возраст:')
     await UserState.age.set()
 
 @dp.message_handler(state=UserState.age)
@@ -59,14 +60,13 @@ async def start(message):
     await message.answer("Привет! Я бот помогающий твоему здоровью", reply_markup = kb)
     await message.answer()
 
-#@dp.message_handler(state=UserState.weight)
-@dp.callback_query_handler(text='calories')
+@dp.message_handler(state=UserState.weight)
 async def send_calories(call, state):
     await state.update_data(weight=call.message.text)
     await UserState.weight.set()
     data = await state.get_data()
     norma = 10*int(data["weight"])+6.25*int(data["growth"])-5*int(data["age"])-161
-    await call.message.answer(f"Ваша норма калорий: {norma} Ккал в день .")
+    await call.message.answer(f"Ваша норма калорий: {norma} Ккал в день.")
     await state.finish()
 
 if __name__ == '__main__':
