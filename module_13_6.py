@@ -17,20 +17,26 @@ dp = Dispatcher(bot, storage = MemoryStorage())
 # kb.row(button, button_info)-
 
 kb = InlineKeyboardMarkup()
-button1 = InlineKeyboardButton(text="Рассчитать норму калорий") # и callback_data='calories')
-button2 = InlineKeyboardButton(text="Формулы расчёта") # callback_data = 'formulas'
+button1 = InlineKeyboardButton(text="Рассчитать норму калорий", callback_data='calories')
+button2 = InlineKeyboardButton(text="Формулы расчёта", callback_data = 'formulas')
+kb.add(button1, button2)
 
 class UserState(StatesGroup):
     age = State()
     growth = State()
     weight = State()
 
-async def main_menu(message):
-    pass
 
 @dp.message_handler(text=['Рассчитать'])
-async def set_age(message):
-    await message.answer('Введите свой возраст:')
+async def main_menu(call):
+    pass
+
+@dp.callback_query_handler(text="formulas")
+
+
+@dp.callback_query_handler(text='calories')
+async def set_age(call):
+    await call.message('Введите свой возраст:')
     await UserState.age.set()
 
 @dp.message_handler(state=UserState.age)
